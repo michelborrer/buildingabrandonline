@@ -45,7 +45,7 @@ posts.sort((a: any, b: any) => new Date(b.data.pubDate).getTime() - new Date(a.d
               category={post.data.category}
               excerpt={post.data.excerpt}
               image={post.data.image}
-              slug={post.data.slug}
+              slug={post.slug}
               variant="light"
               pubDate={post.data.pubDate.toISOString()}
             />
