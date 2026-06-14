@@ -12,6 +12,11 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await post.render();
+const siteUrl = 'https://buildingabrandonline.com';
+const postUrl = `${siteUrl}/blog/${post.slug}/`;
+const categorySlug = post.data.category.toLowerCase().replace(/\s+/g, '-');
+const categoryUrl = `${siteUrl}/blog/category/${categorySlug}/`;
+const dateModified = (post.data.updatedDate ?? post.data.pubDate).toISOString();
 
 const formattedDate = new Date(post.data.pubDate).toLocaleDateString('en-US', {
   month: 'long',
@@ -21,10 +26,23 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString('en-US', {
 ---
 
 <Layout
-  title={`${post.data.title} - Building a Brand Online`}
+  title={post.data.title}
   description={post.data.excerpt}
   ogImage={post.data.image}
 >
+  <Fragment slot="head">
+    <meta name="author" content={post.data.author} />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": `${siteUrl}/` },
+        { "@type": "ListItem", "position": 2, "name": "Blog", "item": `${siteUrl}/blog/` },
+        { "@type": "ListItem", "position": 3, "name": post.data.category, "item": categoryUrl },
+        { "@type": "ListItem", "position": 4, "name": post.data.title, "item": postUrl },
+      ],
+    })} />
+  </Fragment>
   <!-- Breadcrumb -->
   <div class="pt-28 pb-4 bg-white">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -199,18 +217,20 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString('en-US', {
   "@type": "BlogPosting",
   "headline": post.data.title,
   "description": post.data.excerpt,
-  "image": `https://buildingabrandonline.com${post.data.image}`,
+  "image": `${siteUrl}${post.data.image}`,
   "datePublished": post.data.pubDate.toISOString(),
+  "dateModified": dateModified,
   "author": {
-    "@type": "Organization",
-    "name": post.data.author
+    "@type": "Person",
+    "name": post.data.author,
+    "url": `${siteUrl}/about/`
   },
   "publisher": {
     "@type": "Organization",
     "name": "Building a Brand Online",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://buildingabrandonline.com/favicon.svg"
+      "url": `${siteUrl}/favicon.svg`
     }
   }
 })} />
