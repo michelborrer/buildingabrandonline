@@ -1,0 +1,100 @@
+---
+import Button from './Button.astro';
+---
+
+<!-- Backdrop -->
+<div
+  class="fixed inset-0 bg-black/50 z-40 opacity-0 pointer-events-none transition-opacity duration-300"
+  id="mobile-menu-backdrop"
+  aria-hidden="true"
+></div>
+
+<!-- Drawer -->
+<div
+  class="fixed inset-y-0 right-0 w-72 bg-[#0A0A0A] z-50 p-8 transform translate-x-full transition-transform duration-300 flex flex-col"
+  id="mobile-menu-drawer"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Mobile navigation menu"
+>
+  <!-- Close Button -->
+  <button
+    class="absolute top-4 right-4 p-2 text-white hover:text-[#4361EE] transition-colors"
+    id="mobile-menu-close"
+    aria-label="Close mobile menu"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+  </button>
+
+  <!-- Nav Links -->
+  <div class="flex flex-col gap-1 mt-12">
+    <a href="/blog/" class="text-white text-lg py-3 block hover:text-[#4361EE] transition-colors mobile-menu-link">Blog</a>
+    <a href="/contact/" class="text-white text-lg py-3 block hover:text-[#4361EE] transition-colors mobile-menu-link">Contact</a>
+    <a href="/about/" class="text-white text-lg py-3 block hover:text-[#4361EE] transition-colors mobile-menu-link">About</a>
+    <a href="/services/" class="text-white text-lg py-3 block hover:text-[#4361EE] transition-colors mobile-menu-link">Services</a>
+  </div>
+
+  <!-- CTA Buttons -->
+  <div class="mt-auto flex flex-col gap-3">
+    <Button variant="primary-solid" size="sm" href="/services/" class="w-full">Get Started</Button>
+    <Button variant="white-outline" size="sm" href="/about/" class="w-full">Learn More</Button>
+  </div>
+</div>
+
+<script>
+  const toggle = document.getElementById('mobile-menu-toggle');
+  const drawer = document.getElementById('mobile-menu-drawer');
+  const backdrop = document.getElementById('mobile-menu-backdrop');
+  const closeBtn = document.getElementById('mobile-menu-close');
+  const menuLinks = document.querySelectorAll('.mobile-menu-link');
+  const line1 = document.getElementById('hamburger-line-1');
+  const line2 = document.getElementById('hamburger-line-2');
+  const line3 = document.getElementById('hamburger-line-3');
+
+  let isOpen = false;
+
+  function openMenu() {
+    isOpen = true;
+    drawer?.classList.remove('translate-x-full');
+    drawer?.classList.add('translate-x-0');
+    backdrop?.classList.remove('opacity-0', 'pointer-events-none');
+    backdrop?.classList.add('opacity-100', 'pointer-events-auto');
+    toggle?.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+    // Animate hamburger to X
+    line1?.classList.add('rotate-45', 'translate-y-2');
+    line2?.classList.add('opacity-0');
+    line3?.classList.add('-rotate-45', '-translate-y-2');
+  }
+
+  function closeMenu() {
+    isOpen = false;
+    drawer?.classList.remove('translate-x-0');
+    drawer?.classList.add('translate-x-full');
+    backdrop?.classList.remove('opacity-100', 'pointer-events-auto');
+    backdrop?.classList.add('opacity-0', 'pointer-events-none');
+    toggle?.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+    // Revert hamburger
+    line1?.classList.remove('rotate-45', 'translate-y-2');
+    line2?.classList.remove('opacity-0');
+    line3?.classList.remove('-rotate-45', '-translate-y-2');
+  }
+
+  toggle?.addEventListener('click', () => {
+    if (isOpen) closeMenu();
+    else openMenu();
+  });
+
+  closeBtn?.addEventListener('click', closeMenu);
+  backdrop?.addEventListener('click', closeMenu);
+  menuLinks.forEach(link => link.addEventListener('click', closeMenu));
+
+  // Close on escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isOpen) closeMenu();
+  });
+</script>

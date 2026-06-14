@@ -1,0 +1,111 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Button from '@components/Button.astro';
+import ScrollReveal from '@components/ScrollReveal.astro';
+import SectionHeading from '@components/SectionHeading.astro';
+import { courses } from '@data/courses';
+
+const trainings = [
+  {
+    title: 'Digital Marketing Fundamentals',
+    description: 'Master the core principles of digital marketing including SEO, social media, email marketing, and content strategy.',
+    level: 'Beginner',
+    duration: '8 weeks',
+    lessons: 24,
+  },
+  {
+    title: 'Advanced SEO Strategies',
+    description: 'Take your SEO skills to the next level with advanced techniques for technical optimization, link building, and content strategy.',
+    level: 'Advanced',
+    duration: '6 weeks',
+    lessons: 18,
+  },
+  {
+    title: 'Social Media Marketing Pro',
+    description: 'Learn how to build and execute social media campaigns across all major platforms. Includes content creation and advertising.',
+    level: 'Intermediate',
+    duration: '4 weeks',
+    lessons: 16,
+  },
+];
+---
+
+<Layout title="Training - Building a Brand Online" description="Comprehensive training modules to help you build a successful online brand.">
+  <!-- Hero -->
+  <section class="pt-32 pb-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold text-[#1A1A1A]" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">Training Programs</h1>
+      <p class="mt-4 text-lg text-[#666666] max-w-2xl mx-auto">Comprehensive courses designed by industry experts to help you master digital marketing and build a thriving online brand.</p>
+    </div>
+  </section>
+
+  <!-- Featured Courses -->
+  <section class="pb-20 md:pb-28 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <ScrollReveal>
+        <SectionHeading title="Featured Courses" subtitle="Start your learning journey with our most popular courses." />
+      </ScrollReveal>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+        {courses.map((course, index) => (
+          <ScrollReveal delay={index * 100}>
+            <div class="bg-white rounded-lg overflow-hidden border border-[#E5E5E5] shadow-sm hover:shadow-lg card-hover group h-full flex flex-col">
+              <div class="aspect-[4/3] overflow-hidden">
+                <img src={course.image} alt={course.title} class="w-full h-full object-cover img-zoom" loading="lazy" onerror="this.style.display='none'" />
+              </div>
+              <div class="p-6 flex flex-col flex-grow">
+                <h3 class="text-lg font-bold text-[#1A1A1A] group-hover:text-[#4361EE] transition-colors">{course.title}</h3>
+                <p class="mt-2 text-sm text-[#666666] leading-relaxed flex-grow">{course.description}</p>
+                <Button variant="primary-solid" size="sm" href="/contact/" class="mt-4 w-full">Enroll Now</Button>
+              </div>
+            </div>
+          </ScrollReveal>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Training Programs -->
+  <section class="py-20 md:py-28 bg-[#F5F5F5]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <ScrollReveal>
+        <SectionHeading title="All Programs" subtitle="Browse our complete catalog of training programs designed for every skill level." />
+      </ScrollReveal>
+
+      <div class="space-y-6 mt-12">
+        {trainings.map((training, index) => (
+          <ScrollReveal delay={index * 100}>
+            <div class="bg-white rounded-lg p-6 md:p-8 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col md:flex-row md:items-center gap-6">
+              <div class="flex-grow">
+                <div class="flex items-center gap-3 mb-2">
+                  <span class={`text-xs uppercase tracking-wider font-semibold px-2 py-1 rounded ${
+                    training.level === 'Beginner' ? 'bg-green-100 text-green-700' :
+                    training.level === 'Intermediate' ? 'bg-yellow-100 text-yellow-700' :
+                    'bg-red-100 text-red-700'
+                  }`}>{training.level}</span>
+                  <span class="text-xs text-[#999999]">{training.duration} · {training.lessons} lessons</span>
+                </div>
+                <h3 class="text-xl font-bold text-[#1A1A1A]">{training.title}</h3>
+                <p class="mt-2 text-[#666666]">{training.description}</p>
+              </div>
+              <Button variant="primary-outline" size="sm" href="/contact/" class="flex-shrink-0 whitespace-nowrap">Learn More</Button>
+            </div>
+          </ScrollReveal>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 bg-[#4361EE]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <ScrollReveal>
+        <h2 class="text-3xl md:text-4xl font-bold text-white" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">Start Learning Today</h2>
+        <p class="mt-4 text-lg text-white/90 max-w-xl mx-auto">Join thousands of entrepreneurs who have transformed their brands with our training programs.</p>
+        <div class="mt-8">
+          <Button variant="white-solid" href="/contact/" size="lg" class="text-[#4361EE]">Get Started</Button>
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,85 @@
+---
+import Layout from '@layouts/Layout.astro';
+import StatCounter from '@components/StatCounter.astro';
+import ScrollReveal from '@components/ScrollReveal.astro';
+import Button from '@components/Button.astro';
+---
+
+<Layout title="About Us - Building a Brand Online" description="Learn about our mission to empower entrepreneurs with digital marketing knowledge and community support.">
+  <!-- Hero Section -->
+  <section class="pt-32 pb-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <!-- Left — Text -->
+        <div>
+          <h1 class="text-4xl md:text-5xl font-bold text-[#1A1A1A] max-w-xl" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">
+            Our Journey of Building a Brand
+          </h1>
+          <p class="mt-6 text-lg text-[#666666] leading-relaxed max-w-xl">
+            Building a Brand Online was founded over ten years ago by marketing veterans with a mission to empower entrepreneurs, freelancers, and creators. Our journey has been driven by a passion for clarity, innovation, and community, helping countless individuals transform their expertise into unforgettable brands.
+          </p>
+
+          <!-- Stats -->
+          <div class="grid grid-cols-2 gap-6 mt-10">
+            <StatCounter value={1500} suffix=" $" label="Total Revenue Generated" />
+            <StatCounter value={3000} suffix=" $" label="Clients Served" />
+            <StatCounter value={200} suffix=" k" label="Successful Projects" />
+            <StatCounter value={50} suffix=" k" label="Brands Built" />
+          </div>
+        </div>
+
+        <!-- Right — Image -->
+        <ScrollReveal delay={200}>
+          <div class="relative">
+            <img
+              src="/images/about/about-mission.jpg"
+              alt="Professional team in modern meeting room"
+              class="rounded-lg w-full h-auto object-cover shadow-lg"
+              loading="lazy"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+            />
+            <div class="hidden rounded-lg w-full aspect-[4/3] bg-gradient-to-br from-[#4361EE]/20 to-[#3A0CA3]/20 items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#4361EE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+            </div>
+          </div>
+        </ScrollReveal>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Section -->
+  <section class="py-20 md:py-28 bg-[#F5F5F5]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <ScrollReveal>
+        <p class="text-sm uppercase tracking-widest text-[#999999] mb-4">Meet the Experts</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-[#1A1A1A]" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">Join Our Team</h2>
+        <p class="mt-4 text-[#666666] max-w-xl">Connect with our passionate branding specialists to elevate your business.</p>
+        <div class="mt-6">
+          <Button variant="primary-solid" href="/contact/">Learn More</Button>
+        </div>
+      </ScrollReveal>
+
+      <!-- Team Member -->
+      <ScrollReveal delay={100}>
+        <div class="mt-12 flex flex-col md:flex-row items-start gap-6 bg-white rounded-lg p-8 shadow-sm max-w-2xl">
+          <img
+            src="/images/avatars/avatar-jane.jpg"
+            alt="Jane Doe"
+            class="w-28 h-28 md:w-32 md:h-32 rounded-full object-cover border-4 border-[#E5E5E5] flex-shrink-0"
+            loading="lazy"
+          />
+          <div>
+            <h3 class="text-xl font-bold text-[#1A1A1A]">Jane Doe</h3>
+            <p class="text-sm text-[#999999] mt-1">Founder & Brand Strategist</p>
+            <p class="text-[#666666] mt-3 leading-relaxed">Jane has over 15 years of experience in marketing and branding, specializing in helping entrepreneurs stand out online. She founded Building a Brand Online with a vision to make expert-level digital marketing education accessible to everyone.</p>
+          </div>
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+</Layout>

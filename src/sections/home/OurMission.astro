@@ -1,0 +1,79 @@
+<section class="py-20 md:py-28 lg:py-32 bg-[#F5F5F5]">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <!-- Left: Text + Stats -->
+      <div>
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1A1A1A] mb-6 font-display">Our Mission</h2>
+        <p class="text-gray-700 leading-relaxed mb-10">
+          At Building a Brand Online, our mission is to democratize digital marketing knowledge, empowering online entrepreneurs with actionable insights, comprehensive training modules, and a supportive community to help them grow their brands online.
+        </p>
+
+        <!-- Stats grid -->
+        <div class="grid grid-cols-2 gap-8" id="mission-stats">
+          <div class="stat-item">
+            <p class="text-4xl md:text-5xl font-extrabold text-[#1A1A1A]">
+              <span class="stat-number" data-target="1500">0</span> $
+            </p>
+            <p class="text-sm text-gray-600 mt-1">digital marketing resources</p>
+          </div>
+          <div class="stat-item">
+            <p class="text-4xl md:text-5xl font-extrabold text-[#1A1A1A]">
+              <span class="stat-number" data-target="1200">0</span> $
+            </p>
+            <p class="text-sm text-gray-600 mt-1">training modules and community support</p>
+          </div>
+          <div class="stat-item">
+            <p class="text-4xl md:text-5xl font-extrabold text-[#1A1A1A]">
+              <span class="stat-number" data-target="1000">0</span> $
+            </p>
+            <p class="text-sm text-gray-600 mt-1">to help entrepreneurs succeed online</p>
+          </div>
+          <div class="stat-item">
+            <p class="text-4xl md:text-5xl font-extrabold text-[#1A1A1A]">
+              <span class="stat-number" data-target="800">0</span> $
+            </p>
+            <p class="text-sm text-gray-600 mt-1">building successful online brands</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Image -->
+      <div class="rounded-lg overflow-hidden">
+        <img src="/images/about/about-mission.jpg" alt="Team collaborating in modern office" class="w-full h-full object-cover rounded-lg" loading="lazy" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Stat counter animation
+  const statObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const counters = entry.target.querySelectorAll('.stat-number');
+        counters.forEach(counter => {
+          const target = parseInt(counter.getAttribute('data-target') || '0');
+          const duration = 2000;
+          const start = performance.now();
+
+          function update(currentTime) {
+            const elapsed = currentTime - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            counter.textContent = Math.floor(eased * target).toLocaleString();
+
+            if (progress < 1) {
+              requestAnimationFrame(update);
+            }
+          }
+
+          requestAnimationFrame(update);
+        });
+        statObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  const statsSection = document.getElementById('mission-stats');
+  if (statsSection) statObserver.observe(statsSection);
+</script>

@@ -1,0 +1,57 @@
+---
+import Layout from '@layouts/Layout.astro';
+import BlogCard from '@components/BlogCard.astro';
+import Button from '@components/Button.astro';
+import ScrollReveal from '@components/ScrollReveal.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+posts.sort((a: any, b: any) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
+---
+
+<Layout title="Blog - Building a Brand Online" description="Your go-to resource for mastering digital marketing and building a thriving online brand.">
+  <!-- Page Header -->
+  <section class="pt-32 pb-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-4xl md:text-5xl font-bold" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">
+        Your <em class="italic">Marketing</em> Journey Starts Here
+      </h1>
+      <p class="mt-4 text-[#666666] max-w-2xl text-lg">
+        Welcome to Building a Brand Online's blog, your go-to resource for mastering digital marketing and building a thriving online brand.
+      </p>
+    </div>
+  </section>
+
+  <!-- Blog Grid -->
+  <section class="pb-20 md:pb-28 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Header Row -->
+      <ScrollReveal>
+        <div class="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-12">
+          <div>
+            <h2 class="text-3xl font-bold text-[#1A1A1A]">Latest Insights</h2>
+            <p class="mt-2 text-[#666666]">Explore our newest marketing articles to boost your online brand.</p>
+          </div>
+          <Button variant="primary-outline" size="sm" href="/blog/">Read More</Button>
+        </div>
+      </ScrollReveal>
+
+      <!-- Posts Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {posts.map((post: any) => (
+          <ScrollReveal delay={100}>
+            <BlogCard
+              title={post.data.title}
+              category={post.data.category}
+              excerpt={post.data.excerpt}
+              image={post.data.image}
+              slug={post.data.slug}
+              variant="light"
+              pubDate={post.data.pubDate.toISOString()}
+            />
+          </ScrollReveal>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,95 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Button from '@components/Button.astro';
+import ScrollReveal from '@components/ScrollReveal.astro';
+import SectionHeading from '@components/SectionHeading.astro';
+
+const resources = [
+  {
+    title: 'SEO Checklist',
+    description: 'A comprehensive checklist to optimize your website for search engines. Covers on-page, technical, and off-page SEO essentials.',
+    icon: 'seo',
+    type: 'Guide',
+  },
+  {
+    title: 'Content Calendar Template',
+    description: 'Plan and organize your content strategy with this easy-to-use monthly calendar template. Includes social media scheduling.',
+    icon: 'calendar',
+    type: 'Template',
+  },
+  {
+    title: 'Email Marketing Templates',
+    description: 'Professionally designed email templates for newsletters, promotions, welcome sequences, and more.',
+    icon: 'email',
+    type: 'Template',
+  },
+  {
+    title: 'Social Media Strategy Guide',
+    description: 'Learn how to build a winning social media strategy with this step-by-step guide covering all major platforms.',
+    icon: 'social',
+    type: 'Guide',
+  },
+  {
+    title: 'Brand Identity Workbook',
+    description: 'Define your brand voice, visual identity, and positioning with this comprehensive workbook.',
+    icon: 'brand',
+    type: 'Workbook',
+  },
+  {
+    title: 'Analytics Dashboard Template',
+    description: 'Track your key marketing metrics with this customizable analytics dashboard for Google Sheets.',
+    icon: 'analytics',
+    type: 'Template',
+  },
+];
+---
+
+<Layout title="Resources - Building a Brand Online" description="Download free marketing resources, guides, templates, and checklists to grow your online brand.">
+  <!-- Hero -->
+  <section class="pt-32 pb-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold text-[#1A1A1A]" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">Free Marketing Resources</h1>
+      <p class="mt-4 text-lg text-[#666666] max-w-2xl mx-auto">Access our library of free guides, templates, and checklists designed to help you build and grow your online brand.</p>
+    </div>
+  </section>
+
+  <!-- Resources Grid -->
+  <section class="pb-20 md:pb-28 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {resources.map((resource, index) => (
+          <ScrollReveal delay={index * 100}>
+            <div class="bg-[#F5F5F5] rounded-lg p-6 h-full hover:shadow-md transition-shadow duration-300 group">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 bg-[#4361EE]/10 rounded-lg flex items-center justify-center">
+                  {resource.icon === 'seo' && (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4361EE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path><path d="M11 8v6"></path><path d="M8 11h6"></path></svg>
+                  )}
+                  {resource.icon === 'calendar' && (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4361EE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                  )}
+                  {resource.icon === 'email' && (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4361EE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+                  )}
+                  {resource.icon === 'social' && (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4361EE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path><path d="M2 8c0-2 1-3 3-3h14c2 0 3 1 3 3"></path></svg>
+                  )}
+                  {resource.icon === 'brand' && (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4361EE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+                  )}
+                  {resource.icon === 'analytics' && (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4361EE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                  )}
+                </div>
+                <span class="text-xs uppercase tracking-wider text-[#4361EE] font-semibold">{resource.type}</span>
+              </div>
+              <h3 class="text-xl font-bold text-[#1A1A1A] group-hover:text-[#4361EE] transition-colors">{resource.title}</h3>
+              <p class="mt-2 text-sm text-[#666666] leading-relaxed">{resource.description}</p>
+              <Button variant="primary-solid" size="sm" href="/contact/" class="mt-4">Download Free</Button>
+            </div>
+          </ScrollReveal>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,216 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post: any) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+const formattedDate = new Date(post.data.pubDate).toLocaleDateString('en-US', {
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+});
+---
+
+<Layout
+  title={`${post.data.title} - Building a Brand Online`}
+  description={post.data.excerpt}
+  ogImage={post.data.image}
+>
+  <!-- Breadcrumb -->
+  <div class="pt-28 pb-4 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav aria-label="Breadcrumb">
+        <ol class="flex items-center gap-2 text-sm text-[#999999]">
+          <li><a href="/" class="hover:text-[#4361EE] transition-colors">Home</a></li>
+          <li>/</li>
+          <li><a href="/blog/" class="hover:text-[#4361EE] transition-colors">Blog</a></li>
+          <li>/</li>
+          <li><a href={`/blog/category/${post.data.category.toLowerCase().replace(/\s+/g, '-')}/`} class="hover:text-[#4361EE] transition-colors">{post.data.category}</a></li>
+          <li>/</li>
+          <li class="text-[#666666] truncate max-w-[200px]">{post.data.title}</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Article Header -->
+  <article class="pb-20 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Title -->
+      <div class="text-center mt-8">
+        <span class="text-xs uppercase tracking-wider text-[#4361EE] font-semibold">{post.data.category}</span>
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-[#1A1A1A] mt-4" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">
+          {post.data.title}
+        </h1>
+
+        <!-- Meta Row -->
+        <div class="flex items-center justify-center gap-4 mt-6 text-[#999999]">
+          <span class="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            {formattedDate}
+          </span>
+          <span>|</span>
+          <span>{post.data.author}</span>
+        </div>
+
+        <!-- Share Icons -->
+        <div class="flex items-center justify-center gap-3 mt-4">
+          <span class="text-sm text-[#999999]">Share:</span>
+          <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(Astro.url.href)}`} target="_blank" rel="noopener noreferrer" class="text-[#999999] hover:text-[#4361EE] transition-colors" aria-label="Share on LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+              <rect x="2" y="9" width="4" height="12"></rect>
+              <circle cx="4" cy="4" r="2"></circle>
+            </svg>
+          </a>
+          <a href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(Astro.url.href)}&text=${encodeURIComponent(post.data.title)}`} target="_blank" rel="noopener noreferrer" class="text-[#999999] hover:text-[#4361EE] transition-colors" aria-label="Share on Twitter">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
+            </svg>
+          </a>
+          <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(Astro.url.href)}`} target="_blank" rel="noopener noreferrer" class="text-[#999999] hover:text-[#4361EE] transition-colors" aria-label="Share on Facebook">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Featured Image -->
+      <div class="mt-8">
+        <img src={post.data.image} alt={post.data.title} class="w-full rounded-lg aspect-video object-cover" loading="eager" onerror="this.style.display='none'" />
+      </div>
+
+      <!-- Article Body -->
+      <div class="article-body max-w-3xl mx-auto mt-12">
+        <Content />
+      </div>
+
+      <!-- Social Share Bar -->
+      <div class="mt-12 pt-8 border-t border-[#E5E5E5] text-center">
+        <p class="text-sm text-[#666666] mb-4">If you found this article helpful, please share it with your network:</p>
+        <div class="flex items-center justify-center gap-4">
+          <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(Astro.url.href)}`} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 bg-[#0077B5] text-white rounded-md hover:opacity-90 transition-opacity" aria-label="Share on LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+              <rect x="2" y="9" width="4" height="12"></rect>
+              <circle cx="4" cy="4" r="2"></circle>
+            </svg>
+            LinkedIn
+          </a>
+          <a href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(Astro.url.href)}&text=${encodeURIComponent(post.data.title)}`} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 bg-[#1DA1F2] text-white rounded-md hover:opacity-90 transition-opacity" aria-label="Share on Twitter">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
+            </svg>
+            Twitter
+          </a>
+          <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(Astro.url.href)}`} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 bg-[#4267B2] text-white rounded-md hover:opacity-90 transition-opacity" aria-label="Share on Facebook">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+            </svg>
+            Facebook
+          </a>
+        </div>
+      </div>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .article-body :global(h2) {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    color: #1A1A1A;
+  }
+  .article-body :global(h3) {
+    font-size: 1.375rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    color: #1A1A1A;
+  }
+  .article-body :global(p) {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+    color: #1A1A1A;
+  }
+  .article-body :global(a) {
+    color: #4361EE;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .article-body :global(a:hover) {
+    color: #3651D4;
+  }
+  .article-body :global(blockquote) {
+    border-left: 4px solid #4361EE;
+    padding-left: 1.5rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin: 2rem 0;
+    font-style: italic;
+    background-color: #F9FAFB;
+    border-radius: 0 0.5rem 0.5rem 0;
+  }
+  .article-body :global(ul),
+  .article-body :global(ol) {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .article-body :global(li) {
+    margin-bottom: 0.5rem;
+    line-height: 1.7;
+  }
+  .article-body :global(img) {
+    border-radius: 0.5rem;
+    margin: 2rem 0;
+    max-width: 100%;
+    height: auto;
+  }
+  .article-body :global(strong) {
+    font-weight: 600;
+  }
+  .article-body :global(hr) {
+    margin: 2.5rem 0;
+    border: none;
+    border-top: 1px solid #E5E5E5;
+  }
+</style>
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": post.data.title,
+  "description": post.data.excerpt,
+  "image": `https://buildingabrandonline.com${post.data.image}`,
+  "datePublished": post.data.pubDate.toISOString(),
+  "author": {
+    "@type": "Organization",
+    "name": post.data.author
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Building a Brand Online",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://buildingabrandonline.com/favicon.svg"
+    }
+  }
+})} />

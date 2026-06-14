@@ -1,0 +1,32 @@
+---
+interface Props {
+  title: string;
+  category: string;
+  excerpt: string;
+  image: string;
+  slug: string;
+  variant?: 'dark' | 'light';
+  pubDate?: string;
+}
+
+const { title, category, excerpt, image, slug, variant = 'dark', pubDate } = Astro.props;
+
+const cardBg = variant === 'dark' ? 'bg-[#111111]' : 'bg-white border border-[#E5E5E5] shadow-sm';
+const titleColor = variant === 'dark' ? 'text-white hover:text-[#4361EE]' : 'text-[#1A1A1A] hover:text-[#4361EE]';
+const excerptColor = variant === 'dark' ? 'text-[#999999]' : 'text-[#666666]';
+const categoryColor = 'text-[#4361EE]';
+---
+
+<div class={`rounded-lg overflow-hidden ${cardBg} group transition-all duration-300 card-hover`}>
+  <a href={`/blog/${slug}/`} class="block">
+    <div class="aspect-[16/10] overflow-hidden">
+      <img src={image} alt={title} class="w-full h-full object-cover img-zoom" loading="lazy" onerror="this.style.display='none'" />
+    </div>
+    <div class="p-6">
+      <span class={`text-xs uppercase tracking-wider font-semibold ${categoryColor}`}>{category}</span>
+      <h4 class={`text-lg font-semibold mt-2 transition-colors ${titleColor}`}>{title}</h4>
+      <p class={`text-sm mt-2 line-clamp-2 ${excerptColor}`}>{excerpt}</p>
+      {pubDate && <p class={`text-xs mt-3 ${excerptColor}`}>{new Date(pubDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>}
+    </div>
+  </a>
+</div>

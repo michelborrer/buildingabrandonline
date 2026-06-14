@@ -1,0 +1,31 @@
+---
+interface Props {
+  initials: string;
+  quote: string;
+  avatar: string;
+  name: string;
+  role: string;
+}
+
+const { initials, quote, avatar, name, role } = Astro.props;
+---
+
+<div class="text-center md:text-left">
+  <!-- Decorative Initials -->
+  <p class="text-4xl md:text-5xl text-[#D4D4D4] font-serif italic mb-6">{initials}</p>
+
+  <!-- Quote -->
+  <blockquote class="relative">
+    <span class="absolute -top-4 -left-2 text-6xl text-[#4361EE] opacity-30 font-serif">"</span>
+    <p class="text-lg md:text-xl text-[#1A1A1A] italic leading-relaxed pl-4">{quote}</p>
+  </blockquote>
+
+  <!-- Author -->
+  <div class="flex items-center gap-4 mt-8 justify-center md:justify-start">
+    <img src={avatar} alt={name} class="w-16 h-16 rounded-full object-cover border-2 border-[#E5E5E5]" loading="lazy" onerror="this.style.display='none'" />
+    <div>
+      <p class="font-semibold text-[#1A1A1A]">{name}</p>
+      <p class="text-sm text-[#666666]">{role}</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,68 @@
+---
+interface Props {
+  value: number;
+  suffix?: string;
+  label: string;
+  duration?: number;
+}
+
+const { value, suffix = '', label, duration = 2000 } = Astro.props;
+---
+
+<div class="stat-counter" data-value={value} data-suffix={suffix} data-duration={duration}>
+  <div class="flex items-baseline">
+    <span class="stat-number text-4xl md:text-5xl font-extrabold" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">0</span>
+    {suffix && <span class="text-2xl md:text-3xl font-bold ml-1">{suffix}</span>}
+  </div>
+  <p class="text-sm text-[#666666] mt-2">{label}</p>
+</div>
+
+<script>
+  const counters = document.querySelectorAll('.stat-counter');
+
+  const observerCallback: IntersectionObserverCallback = (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const el = entry.target as HTMLElement;
+        const value = parseInt(el.dataset.value || '0', 10);
+        const suffix = el.dataset.suffix || '';
+        const duration = parseInt(el.dataset.duration || '2000', 10);
+        const numberEl = el.querySelector('.stat-number') as HTMLElement;
+
+        if (numberEl && !el.classList.contains('counted')) {
+          el.classList.add('counted');
+          animateCounter(numberEl, value, duration, suffix);
+        }
+        observer.unobserve(el);
+      }
+    });
+  };
+
+  const observer = new IntersectionObserver(observerCallback, {
+    threshold: 0.5,
+  });
+
+  counters.forEach((counter) => observer.observe(counter));
+
+  function animateCounter(el: HTMLElement, target: number, duration: number, _suffix: string) {
+    const startTime = performance.now();
+    const startValue = 0;
+
+    function update(currentTime: number) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease-out function
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.round(startValue + (target - startValue) * eased);
+      el.textContent = current.toLocaleString();
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      } else {
+        el.textContent = target.toLocaleString();
+      }
+    }
+
+    requestAnimationFrame(update);
+  }
+</script>

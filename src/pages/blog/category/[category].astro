@@ -1,0 +1,19 @@
+---
+import Layout from '@layouts/Layout.astro';
+
+export function getStaticPaths() {
+  const categories = ['seo', 'email-marketing', 'influencer-marketing', 'social-media', 'content-strategy'];
+  return categories.map(cat => ({
+    params: { category: cat },
+  }));
+}
+
+const { category } = Astro.params;
+const displayCategory = category?.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+---
+
+<Layout title={`${displayCategory} Articles - Building a Brand Online`} description={`Browse our ${displayCategory} articles and resources.`}>
+  <div class="pt-32 pb-16 px-4 max-w-7xl mx-auto">
+    <h1 class="text-4xl font-bold" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">{displayCategory}</h1>
+  </div>
+</Layout>
