@@ -10,6 +10,7 @@ const blogCollection = defineCollection({
     author: z.string(),
     image: z.string(),
     slug: z.string().optional(),
+    legacyUrl: z.string().optional(),
     updatedDate: z.date().optional(),
   }),
 });
