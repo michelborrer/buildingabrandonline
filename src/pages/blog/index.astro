@@ -4,6 +4,7 @@ import BlogCard from '@components/BlogCard.astro';
 import Button from '@components/Button.astro';
 import ScrollReveal from '@components/ScrollReveal.astro';
 import { getCollection } from 'astro:content';
+import { getPostUrl } from '@utils/blog';
 
 const posts = await getCollection('blog');
 posts.sort((a: any, b: any) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
@@ -45,7 +46,7 @@ posts.sort((a: any, b: any) => new Date(b.data.pubDate).getTime() - new Date(a.d
               category={post.data.category}
               excerpt={post.data.excerpt}
               image={post.data.image}
-              slug={post.slug}
+              href={getPostUrl(post)}
               variant="light"
               pubDate={post.data.pubDate.toISOString()}
             />

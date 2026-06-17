@@ -5,15 +5,17 @@ import { getCollection } from 'astro:content';
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
   return posts
-    .filter((post) => !post.data.legacyUrl)
+    .filter((post) => post.data.legacyUrl)
     .map((post) => ({
-      params: { slug: post.slug },
+      params: {
+        legacyPath: post.data.legacyUrl!.replace(/^\//, '').replace(/\/$/, ''),
+      },
       props: { post },
     }));
 }
 
 const { post } = Astro.props;
-const canonicalPath = `/blog/${post.slug}/`;
+const canonicalPath = post.data.legacyUrl!;
 ---
 
 <BlogPostPage post={post} canonicalPath={canonicalPath} />

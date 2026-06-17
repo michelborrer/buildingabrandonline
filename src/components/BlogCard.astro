@@ -4,12 +4,12 @@ interface Props {
   category: string;
   excerpt: string;
   image: string;
-  slug: string;
+  href: string;
   variant?: 'dark' | 'light';
   pubDate?: string;
 }
 
-const { title, category, excerpt, image, slug, variant = 'dark', pubDate } = Astro.props;
+const { title, category, excerpt, image, href, variant = 'dark', pubDate } = Astro.props;
 
 const cardBg = variant === 'dark' ? 'bg-[#111111]' : 'bg-white border border-[#E5E5E5] shadow-sm';
 const titleColor = variant === 'dark' ? 'text-white hover:text-[#4361EE]' : 'text-[#1A1A1A] hover:text-[#4361EE]';
@@ -18,7 +18,7 @@ const categoryColor = 'text-[#4361EE]';
 ---
 
 <div class={`rounded-lg overflow-hidden ${cardBg} group transition-all duration-300 card-hover`}>
-  <a href={`/blog/${slug}/`} class="block">
+  <a href={href} class="block">
     <div class="aspect-[16/10] overflow-hidden">
       <img src={image} alt={title} class="w-full h-full object-cover img-zoom" loading="lazy" onerror="this.style.display='none'" />
     </div>
