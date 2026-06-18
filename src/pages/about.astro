@@ -3,9 +3,28 @@ import Layout from '@layouts/Layout.astro';
 import StatCounter from '@components/StatCounter.astro';
 import ScrollReveal from '@components/ScrollReveal.astro';
 import Button from '@components/Button.astro';
+
+const siteUrl = 'https://buildingabrandonline.com';
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'About', path: '/about/' },
+];
+const aboutSchema = {
+  '@type': 'AboutPage',
+  name: 'About Building a Brand Online',
+  url: `${siteUrl}/about/`,
+  description:
+    'Learn about Building a Brand Online, our mission, and the team helping entrepreneurs build thriving online brands.',
+  about: { '@id': `${siteUrl}/#organization` },
+};
 ---
 
-<Layout title="About Us - Building a Brand Online" description="Learn about our mission to empower entrepreneurs with digital marketing knowledge and community support.">
+<Layout
+  title="About Us - Building a Brand Online"
+  description="Discover Building a Brand Online's mission, story, and team. We empower entrepreneurs with expert digital marketing education, tools, and a supportive community."
+  breadcrumbs={breadcrumbs}
+  jsonLd={aboutSchema}
+>
   <!-- Hero Section -->
   <section class="pt-32 pb-16 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

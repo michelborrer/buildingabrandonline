@@ -8,9 +8,37 @@ import { getPostUrl } from '@utils/blog';
 
 const posts = await getCollection('blog');
 posts.sort((a: any, b: any) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
+
+const siteUrl = 'https://buildingabrandonline.com';
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Blog', path: '/blog/' },
+];
+const blogSchema = {
+  '@type': 'Blog',
+  '@id': `${siteUrl}/blog/#blog`,
+  name: 'Building a Brand Online Blog',
+  url: `${siteUrl}/blog/`,
+  description:
+    'Digital marketing tips, strategies, and guides to help you build a thriving online brand.',
+  publisher: { '@id': `${siteUrl}/#organization` },
+  blogPost: posts.map((post: any) => ({
+    '@type': 'BlogPosting',
+    headline: post.data.title,
+    description: post.data.excerpt,
+    url: `${siteUrl}${getPostUrl(post)}`,
+    datePublished: post.data.pubDate.toISOString(),
+    author: { '@type': 'Person', name: post.data.author },
+  })),
+};
 ---
 
-<Layout title="Blog - Building a Brand Online" description="Your go-to resource for mastering digital marketing and building a thriving online brand.">
+<Layout
+  title="Blog - Building a Brand Online"
+  description="Your go-to resource for mastering digital marketing, from SEO and email to social media and influencer marketing, and building a thriving online brand."
+  breadcrumbs={breadcrumbs}
+  jsonLd={blogSchema}
+>
   <!-- Page Header -->
   <section class="pt-32 pb-16 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

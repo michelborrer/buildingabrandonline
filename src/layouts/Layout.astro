@@ -3,16 +3,100 @@ import '../styles/global.css';
 import Navbar from '@components/Navbar.astro';
 import Footer from '@components/Footer.astro';
 
+interface Breadcrumb {
+  name: string;
+  path: string;
+}
+
 interface Props {
   title: string;
   description: string;
   ogImage?: string;
   canonical?: string;
+  breadcrumbs?: Breadcrumb[];
+  jsonLd?: Record<string, any> | Record<string, any>[];
+  ogType?: string;
+  noindex?: boolean;
 }
 
-const { title, description, ogImage = '/images/og-default.jpg', canonical } = Astro.props;
+const {
+  title,
+  description,
+  ogImage = '/images/og-default.jpg',
+  canonical,
+  breadcrumbs,
+  jsonLd,
+  ogType = 'website',
+  noindex = false,
+} = Astro.props;
+
 const siteUrl = 'https://buildingabrandonline.com';
 const canonicalUrl = canonical ? `${siteUrl}${canonical}` : `${siteUrl}${Astro.url.pathname}`;
+
+const organization = {
+  '@type': 'Organization',
+  '@id': `${siteUrl}/#organization`,
+  name: 'Building a Brand Online',
+  url: `${siteUrl}/`,
+  logo: {
+    '@type': 'ImageObject',
+    url: `${siteUrl}/favicon.svg`,
+  },
+  description:
+    'Digital marketing education platform helping entrepreneurs build and grow a thriving online brand through courses, resources, and community.',
+  email: 'info@buildingabrandonline.com',
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: '+1-415-555-0123',
+    email: 'info@buildingabrandonline.com',
+    contactType: 'customer support',
+    availableLanguage: 'English',
+  },
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '123 Market Street',
+    addressLocality: 'San Francisco',
+    addressRegion: 'CA',
+    postalCode: '94103',
+    addressCountry: 'US',
+  },
+};
+
+const website = {
+  '@type': 'WebSite',
+  '@id': `${siteUrl}/#website`,
+  url: `${siteUrl}/`,
+  name: 'Building a Brand Online',
+  description:
+    'Learn digital marketing strategies to build a thriving online brand. Courses, resources, and community for entrepreneurs.',
+  publisher: { '@id': `${siteUrl}/#organization` },
+  inLanguage: 'en-US',
+};
+
+const graph: Record<string, any>[] = [organization, website];
+
+if (breadcrumbs && breadcrumbs.length) {
+  graph.push({
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbs.map((crumb, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: crumb.name,
+      item: `${siteUrl}${crumb.path}`,
+    })),
+  });
+}
+
+if (jsonLd) {
+  for (const node of Array.isArray(jsonLd) ? jsonLd : [jsonLd]) {
+    graph.push(node);
+  }
+}
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': graph,
+};
 ---
 
 <!doctype html>
@@ -26,9 +110,11 @@ const canonicalUrl = canonical ? `${siteUrl}${canonical}` : `${siteUrl}${Astro.u
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
 
     <!-- Open Graph -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content="Building a Brand Online" />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -41,28 +127,8 @@ const canonicalUrl = canonical ? `${siteUrl}${canonical}` : `${siteUrl}${Astro.u
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
 
-    <!-- JSON-LD Organization -->
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Building a Brand Online",
-      "url": siteUrl,
-      "logo": `${siteUrl}/favicon.svg`,
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+1-415-555-0123",
-        "contactType": "customer support",
-        "availableLanguage": "English"
-      },
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "123 Market Street",
-        "addressLocality": "San Francisco",
-        "addressRegion": "CA",
-        "postalCode": "94103",
-        "addressCountry": "US"
-      }
-    })} />
+    <!-- JSON-LD structured data -->
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
     <slot name="head" />
   </head>

@@ -28,9 +28,36 @@ const trainings = [
     lessons: 16,
   },
 ];
+
+const siteUrl = 'https://buildingabrandonline.com';
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Training', path: '/training/' },
+];
+const trainingSchema = {
+  '@type': 'CollectionPage',
+  name: 'Training Programs',
+  url: `${siteUrl}/training/`,
+  description:
+    'Expert-led digital marketing training programs and courses covering SEO, social media, email marketing, and content strategy.',
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: [...courses, ...trainings].map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.title,
+      description: item.description,
+    })),
+  },
+};
 ---
 
-<Layout title="Training - Building a Brand Online" description="Comprehensive training modules to help you build a successful online brand.">
+<Layout
+  title="Training - Building a Brand Online"
+  description="Comprehensive, expert-led training programs covering SEO, social media, email marketing, and content strategy to help you build a successful online brand."
+  breadcrumbs={breadcrumbs}
+  jsonLd={trainingSchema}
+>
   <!-- Hero -->
   <section class="pt-32 pb-16 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

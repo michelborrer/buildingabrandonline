@@ -12,7 +12,6 @@ const { Content } = await post.render();
 const siteUrl = 'https://buildingabrandonline.com';
 const postUrl = `${siteUrl}${canonicalPath}`;
 const categorySlug = post.data.category.toLowerCase().replace(/\s+/g, '-');
-const categoryUrl = `${siteUrl}/blog/category/${categorySlug}/`;
 const dateModified = (post.data.updatedDate ?? post.data.pubDate).toISOString();
 
 const formattedDate = new Date(post.data.pubDate).toLocaleDateString('en-US', {
@@ -20,6 +19,30 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString('en-US', {
   day: 'numeric',
   year: 'numeric',
 });
+
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Blog', path: '/blog/' },
+  { name: post.data.category, path: `/blog/category/${categorySlug}/` },
+  { name: post.data.title, path: canonicalPath },
+];
+
+const blogPostingSchema = {
+  '@type': 'BlogPosting',
+  headline: post.data.title,
+  description: post.data.excerpt,
+  image: `${siteUrl}${post.data.image}`,
+  url: postUrl,
+  mainEntityOfPage: postUrl,
+  datePublished: post.data.pubDate.toISOString(),
+  dateModified,
+  author: {
+    '@type': 'Person',
+    name: post.data.author,
+    url: `${siteUrl}/about/`,
+  },
+  publisher: { '@id': `${siteUrl}/#organization` },
+};
 ---
 
 <Layout
@@ -27,19 +50,12 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString('en-US', {
   description={post.data.excerpt}
   ogImage={post.data.image}
   canonical={canonicalPath}
+  ogType="article"
+  breadcrumbs={breadcrumbs}
+  jsonLd={blogPostingSchema}
 >
   <Fragment slot="head">
     <meta name="author" content={post.data.author} />
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": `${siteUrl}/` },
-        { "@type": "ListItem", "position": 2, "name": "Blog", "item": `${siteUrl}/blog/` },
-        { "@type": "ListItem", "position": 3, "name": post.data.category, "item": categoryUrl },
-        { "@type": "ListItem", "position": 4, "name": post.data.title, "item": postUrl },
-      ],
-    })} />
   </Fragment>
   <!-- Breadcrumb -->
   <div class="pt-28 pb-4 bg-white">
@@ -220,28 +236,3 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString('en-US', {
     border: 0;
   }
 </style>
-
-<script type="application/ld+json" set:html={JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": post.data.title,
-  "description": post.data.excerpt,
-  "image": `${siteUrl}${post.data.image}`,
-  "url": postUrl,
-  "mainEntityOfPage": postUrl,
-  "datePublished": post.data.pubDate.toISOString(),
-  "dateModified": dateModified,
-  "author": {
-    "@type": "Person",
-    "name": post.data.author,
-    "url": `${siteUrl}/about/`
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Building a Brand Online",
-    "logo": {
-      "@type": "ImageObject",
-      "url": `${siteUrl}/favicon.svg`
-    }
-  }
-})} />

@@ -1,8 +1,17 @@
 ---
 import Layout from '@layouts/Layout.astro';
+
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Terms & Conditions', path: '/terms-conditions/' },
+];
 ---
 
-<Layout title="Terms & Conditions - Building a Brand Online" description="Review the terms and conditions for using Building a Brand Online's website, courses, resources, and services. Understand your rights and responsibilities.">
+<Layout
+  title="Terms & Conditions - Building a Brand Online"
+  description="Review the terms and conditions for using Building a Brand Online's website, courses, resources, and services. Understand your rights and responsibilities."
+  breadcrumbs={breadcrumbs}
+>
   <div class="pt-32 pb-16 px-4 max-w-3xl mx-auto">
     <h1 class="text-4xl font-bold mb-8" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">Terms & Conditions</h1>
     <p class="text-[#666666]">Last updated: January 1, 2026</p>

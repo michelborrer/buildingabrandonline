@@ -1,19 +1,105 @@
 ---
 import Layout from '@layouts/Layout.astro';
+import BlogCard from '@components/BlogCard.astro';
+import Button from '@components/Button.astro';
+import ScrollReveal from '@components/ScrollReveal.astro';
+import { getCollection } from 'astro:content';
+import { getPostUrl } from '@utils/blog';
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
   const categories = ['seo', 'email-marketing', 'influencer-marketing', 'social-media', 'content-strategy'];
-  return categories.map(cat => ({
+  const posts = await getCollection('blog');
+  return categories.map((cat) => ({
     params: { category: cat },
+    props: {
+      posts: posts
+        .filter((post) => post.data.category.toLowerCase().replace(/\s+/g, '-') === cat)
+        .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()),
+    },
   }));
 }
 
 const { category } = Astro.params;
-const displayCategory = category?.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+const { posts } = Astro.props;
+const displayCategory = category?.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
+
+const siteUrl = 'https://buildingabrandonline.com';
+const categoryPath = `/blog/category/${category}/`;
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Blog', path: '/blog/' },
+  { name: displayCategory ?? 'Category', path: categoryPath },
+];
+const categorySchema = {
+  '@type': 'CollectionPage',
+  name: `${displayCategory} Articles`,
+  url: `${siteUrl}${categoryPath}`,
+  description: `${displayCategory} articles, guides, and tips from Building a Brand Online.`,
+  isPartOf: { '@id': `${siteUrl}/blog/#blog` },
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: posts.map((post, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      url: `${siteUrl}${getPostUrl(post)}`,
+      name: post.data.title,
+    })),
+  },
+};
 ---
 
-<Layout title={`${displayCategory} Articles - Building a Brand Online`} description={`Browse our ${displayCategory} articles and resources.`}>
-  <div class="pt-32 pb-16 px-4 max-w-7xl mx-auto">
-    <h1 class="text-4xl font-bold" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">{displayCategory}</h1>
-  </div>
+<Layout
+  title={`${displayCategory} Articles - Building a Brand Online`}
+  description={`Explore our ${displayCategory} articles, guides, and tips to help you master ${displayCategory?.toLowerCase()} and grow your online brand.`}
+  breadcrumbs={breadcrumbs}
+  jsonLd={categorySchema}
+>
+  <!-- Page Header -->
+  <section class="pt-32 pb-12 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav aria-label="Breadcrumb" class="mb-6">
+        <ol class="flex items-center gap-2 text-sm text-[#999999]">
+          <li><a href="/" class="hover:text-[#4361EE] transition-colors">Home</a></li>
+          <li>/</li>
+          <li><a href="/blog/" class="hover:text-[#4361EE] transition-colors">Blog</a></li>
+          <li>/</li>
+          <li class="text-[#666666]">{displayCategory}</li>
+        </ol>
+      </nav>
+      <h1 class="text-4xl md:text-5xl font-bold text-[#1A1A1A]" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">{displayCategory}</h1>
+      <p class="mt-4 text-[#666666] max-w-2xl text-lg">
+        Browse our latest {displayCategory} articles, guides, and tips to help you grow your online brand.
+      </p>
+    </div>
+  </section>
+
+  <!-- Posts Grid -->
+  <section class="pb-20 md:pb-28 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {posts.length > 0 ? (
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {posts.map((post) => (
+            <ScrollReveal delay={100}>
+              <BlogCard
+                title={post.data.title}
+                category={post.data.category}
+                excerpt={post.data.excerpt}
+                image={post.data.image}
+                href={getPostUrl(post)}
+                variant="light"
+                pubDate={post.data.pubDate.toISOString()}
+              />
+            </ScrollReveal>
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-12">
+          <p class="text-[#666666] text-lg">No articles in this category yet. Check back soon!</p>
+          <div class="mt-6">
+            <Button variant="primary-solid" href="/blog/">Browse All Articles</Button>
+          </div>
+        </div>
+      )}
+    </div>
+  </section>
 </Layout>

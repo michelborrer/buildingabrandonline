@@ -1,9 +1,19 @@
 ---
 import Layout from '@layouts/Layout.astro';
 import Button from '@components/Button.astro';
+
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'AI Brand Name Generator', path: '/ai-brand-name-generator/' },
+];
 ---
 
-<Layout title="AI Brand Name Generator - Building a Brand Online" description="Generate unique, memorable brand names with our upcoming AI-powered tool. Find the perfect name for your business, product, or startup. Join the waitlist today.">
+<Layout
+  title="AI Brand Name Generator - Building a Brand Online"
+  description="Generate unique, memorable brand names with our upcoming AI-powered tool. Find the perfect name for your business, product, or startup. Join the waitlist today."
+  breadcrumbs={breadcrumbs}
+  noindex={true}
+>
   <div class="min-h-[80vh] flex items-center justify-center bg-[#F5F5F5]">
     <div class="text-center max-w-xl mx-auto px-4">
       <h1 class="text-4xl md:text-5xl font-bold" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">AI Brand Name Generator</h1>
