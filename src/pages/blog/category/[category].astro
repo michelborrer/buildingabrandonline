@@ -7,21 +7,21 @@ import { getCollection } from 'astro:content';
 import { getPostUrl } from '@utils/blog';
 
 export async function getStaticPaths() {
-  const categories = ['seo', 'email-marketing', 'influencer-marketing', 'social-media', 'content-strategy'];
   const posts = await getCollection('blog');
-  return categories.map((cat) => ({
-    params: { category: cat },
+  const categories = [...new Set(posts.map((post) => post.data.category))];
+  return categories.map((categoryName) => ({
+    params: { category: categoryName.toLowerCase().replace(/\s+/g, '-') },
     props: {
+      displayCategory: categoryName,
       posts: posts
-        .filter((post) => post.data.category.toLowerCase().replace(/\s+/g, '-') === cat)
+        .filter((post) => post.data.category === categoryName)
         .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()),
     },
   }));
 }
 
 const { category } = Astro.params;
-const { posts } = Astro.props;
-const displayCategory = category?.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
+const { posts, displayCategory } = Astro.props;
 
 const siteUrl = 'https://buildingabrandonline.com';
 const categoryPath = `/blog/category/${category}/`;

@@ -1,26 +1,140 @@
 ---
 import Layout from '@layouts/Layout.astro';
-import Button from '@components/Button.astro';
 
+const siteUrl = 'https://buildingabrandonline.com';
 const breadcrumbs = [
   { name: 'Home', path: '/' },
   { name: 'AI Slogan Generator', path: '/ai-slogan-generator/' },
 ];
+const toolSchema = {
+  '@type': 'WebApplication',
+  name: 'AI Slogan Generator',
+  url: `${siteUrl}/ai-slogan-generator/`,
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  description:
+    'Free slogan generator. Enter your brand name and what you do, and get tagline ideas you can refine — instantly, no signup.',
+  provider: { '@id': `${siteUrl}/#organization` },
+};
 ---
 
 <Layout
-  title="AI Slogan Generator - Building a Brand Online"
-  description="Create catchy, memorable slogans for your brand with our upcoming AI-powered generator. Craft taglines that resonate with your audience. Coming soon."
+  title="Free AI Slogan Generator - Building a Brand Online"
+  description="Generate tagline and slogan ideas for your brand in seconds — free, instant, no signup. Plus a short guide to what separates a slogan people repeat from filler."
   breadcrumbs={breadcrumbs}
-  noindex={true}
+  jsonLd={toolSchema}
 >
-  <div class="min-h-[80vh] flex items-center justify-center bg-[#F5F5F5]">
-    <div class="text-center max-w-xl mx-auto px-4">
-      <h1 class="text-4xl md:text-5xl font-bold" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">AI Slogan Generator</h1>
-      <p class="mt-4 text-xl text-[#666666]">Create memorable slogans for your brand with our upcoming AI-powered slogan generator. Check back soon!</p>
-      <div class="mt-8">
-        <Button variant="primary-solid" href="/">Back to Home</Button>
+  <!-- Tool -->
+  <section class="pt-32 pb-16 bg-[#F5F5F5]">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold text-[#1A1A1A]" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">AI Slogan Generator</h1>
+      <p class="mt-4 text-lg text-[#666666]">Enter your brand name and what you offer. Get tagline ideas to react to, steal from, and sharpen.</p>
+
+      <form id="slogan-form" class="mt-8 flex flex-col gap-3">
+        <label for="slogan-brand" class="sr-only">Your brand name</label>
+        <input
+          type="text"
+          id="slogan-brand"
+          placeholder="Your brand name, e.g. NovaRoast"
+          maxlength="32"
+          autocomplete="off"
+          required
+          class="px-5 py-3 rounded-md border border-[#E5E5E5] focus:border-[#4361EE] focus:outline-none focus:ring-2 focus:ring-[#4361EE]/20 text-[#1A1A1A]"
+        />
+        <label for="slogan-offer" class="sr-only">What you offer, in a word or two</label>
+        <input
+          type="text"
+          id="slogan-offer"
+          placeholder="What you offer, e.g. coffee, coaching, web design"
+          maxlength="32"
+          autocomplete="off"
+          required
+          class="px-5 py-3 rounded-md border border-[#E5E5E5] focus:border-[#4361EE] focus:outline-none focus:ring-2 focus:ring-[#4361EE]/20 text-[#1A1A1A]"
+        />
+        <button type="submit" class="bg-[#4361EE] text-white px-6 py-3 rounded-md font-medium hover:bg-[#3651D4] transition-colors">
+          Generate Slogans
+        </button>
+      </form>
+
+      <ul id="slogan-results" class="mt-8 space-y-3 text-left" hidden></ul>
+      <p id="slogan-hint" class="mt-4 text-sm text-[#999999]" hidden>Click any slogan to copy it. Generate again for a new set.</p>
+    </div>
+  </section>
+
+  <!-- Guidance content -->
+  <section class="py-16 md:py-20 bg-white">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl md:text-3xl font-bold text-[#1A1A1A]" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">What Makes a Slogan Worth Keeping</h2>
+      <div class="mt-6 space-y-5 text-[#666666] leading-relaxed">
+        <p>The generator above gives you raw material. The keepers usually share three traits:</p>
+        <ul class="list-disc pl-6 space-y-2">
+          <li><strong class="text-[#1A1A1A]">They make one claim, not four.</strong> "Fresh roasted, delivered Tuesday" beats "Quality. Passion. Innovation. Excellence." every single time.</li>
+          <li><strong class="text-[#1A1A1A]">A competitor couldn't use them.</strong> If your slogan works just as well on your rival's website, it isn't saying anything about you.</li>
+          <li><strong class="text-[#1A1A1A]">They sound like a person.</strong> Read it aloud. If you'd never say it to a customer face to face, don't print it on your homepage.</li>
+        </ul>
+        <p>Still naming your business? Start with the <a href="/ai-brand-name-generator/" class="text-[#4361EE] hover:underline">brand name generator</a>, then come back — a slogan is much easier to write when the name is settled. And if you want help turning a name and tagline into full brand messaging, our <a href="/services/" class="text-[#4361EE] hover:underline">branding strategy service</a> covers exactly that.</p>
       </div>
-  </div>
-  </div>
+    </div>
+  </section>
 </Layout>
+
+<script>
+  const templates: ((brand: string, offer: string, Offer: string) => string)[] = [
+    (b, o) => `${b}. ${titleCase(o)}, without the runaround.`,
+    (b, o) => `${titleCase(o)} that earns its keep. That's ${b}.`,
+    (b, o) => `${b}: because ${o} should be the easy part.`,
+    (b, o) => `Less noise. Better ${o}. ${b}.`,
+    (b, o) => `${b} — ${o} done properly.`,
+    (b, o) => `Your ${o}, taken personally. ${b}.`,
+    (b, o) => `${b}. Small team, serious ${o}.`,
+    (b, o) => `The ${o} people tell their friends about. ${b}.`,
+    (b, o) => `${b}: ${o} for people who notice the difference.`,
+    (b, o) => `Skip the hype. Keep the ${o}. ${b}.`,
+    (b, o) => `${b} — where good ${o} is the whole point.`,
+    (b, o) => `Built on ${o}, run on word of mouth. ${b}.`,
+  ];
+
+  function titleCase(word: string): string {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  }
+
+  const form = document.getElementById('slogan-form') as HTMLFormElement;
+  const brandInput = document.getElementById('slogan-brand') as HTMLInputElement;
+  const offerInput = document.getElementById('slogan-offer') as HTMLInputElement;
+  const results = document.getElementById('slogan-results') as HTMLUListElement;
+  const hint = document.getElementById('slogan-hint') as HTMLParagraphElement;
+
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const brand = brandInput.value.trim();
+    const offer = offerInput.value.trim().toLowerCase();
+    if (!brand || !offer) return;
+
+    const chosen = [...templates].sort(() => Math.random() - 0.5).slice(0, 6);
+    results.innerHTML = '';
+    chosen.forEach((template) => {
+      const slogan = template(brand, offer, titleCase(offer));
+      const li = document.createElement('li');
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = slogan;
+      button.className =
+        'w-full bg-white border border-[#E5E5E5] rounded-md px-5 py-4 text-[#1A1A1A] font-medium hover:border-[#4361EE] hover:text-[#4361EE] transition-colors cursor-pointer text-left';
+      button.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(slogan);
+          const original = button.textContent;
+          button.textContent = 'Copied!';
+          setTimeout(() => (button.textContent = original), 1000);
+        } catch {
+          /* clipboard unavailable; selection still visible */
+        }
+      });
+      li.appendChild(button);
+      results.appendChild(li);
+    });
+    results.hidden = false;
+    hint.hidden = false;
+  });
+</script>

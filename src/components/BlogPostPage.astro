@@ -1,5 +1,8 @@
 ---
 import Layout from '@layouts/Layout.astro';
+import BlogCard from '@components/BlogCard.astro';
+import { getCollection } from 'astro:content';
+import { getPostUrl } from '@utils/blog';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
@@ -13,6 +16,22 @@ const siteUrl = 'https://buildingabrandonline.com';
 const postUrl = `${siteUrl}${canonicalPath}`;
 const categorySlug = post.data.category.toLowerCase().replace(/\s+/g, '-');
 const dateModified = (post.data.updatedDate ?? post.data.pubDate).toISOString();
+
+const allPosts = await getCollection('blog');
+const otherPosts = allPosts.filter((p) => p.slug !== post.slug);
+const sameCategory = otherPosts
+  .filter((p) => p.data.category === post.data.category)
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+const restRecent = otherPosts
+  .filter((p) => p.data.category !== post.data.category)
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+const relatedPosts = [...sameCategory, ...restRecent].slice(0, 3);
+
+const authorBios: Record<string, string> = {
+  'Dana Whitfield':
+    'Dana founded Building a Brand Online in 2012 and still writes most of the training material herself. She spent the early 2010s doing marketing for musicians and small businesses, and her rule for every lesson is simple: if a busy founder can\'t act on it this week, it doesn\'t ship.',
+};
+const authorBio = authorBios[post.data.author];
 
 const formattedDate = new Date(post.data.pubDate).toLocaleDateString('en-US', {
   month: 'long',
@@ -132,6 +151,24 @@ const blogPostingSchema = {
         <Content />
       </div>
 
+      {authorBio && (
+        <div class="max-w-3xl mx-auto mt-12 pt-8 border-t border-[#E5E5E5]">
+          <div class="flex items-start gap-4 bg-[#F5F5F5] rounded-lg p-6">
+            <img
+              src="/images/avatars/avatar-jane.jpg"
+              alt={post.data.author}
+              class="w-16 h-16 rounded-full object-cover flex-shrink-0"
+              loading="lazy"
+            />
+            <div>
+              <p class="text-xs uppercase tracking-wider text-[#999999] font-semibold">Written by</p>
+              <p class="font-bold text-[#1A1A1A] mt-1"><a href="/about/" class="hover:text-[#4361EE] transition-colors">{post.data.author}</a></p>
+              <p class="text-sm text-[#666666] mt-2 leading-relaxed">{authorBio}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       <!-- Social Share Bar -->
       <div class="mt-12 pt-8 border-t border-[#E5E5E5] text-center">
         <p class="text-sm text-[#666666] mb-4">If you found this article helpful, please share it with your network:</p>
@@ -158,6 +195,25 @@ const blogPostingSchema = {
           </a>
         </div>
       </div>
+
+      {relatedPosts.length > 0 && (
+        <div class="mt-16 pt-10 border-t border-[#E5E5E5]">
+          <h2 class="text-2xl font-bold text-[#1A1A1A]" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">Keep Reading</h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+            {relatedPosts.map((related) => (
+              <BlogCard
+                title={related.data.title}
+                category={related.data.category}
+                excerpt={related.data.excerpt}
+                image={related.data.image}
+                href={getPostUrl(related)}
+                variant="light"
+                pubDate={related.data.pubDate.toISOString()}
+              />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   </article>
 </Layout>

@@ -3,7 +3,7 @@ title: "How To Run a Successful Blog In 17 Creative Ways"
 category: "Blogging"
 excerpt: "Learn the tricks of successful bloggers with 17 creative tips to stand out, grow your audience, connect on social media, and build a profitable blog."
 pubDate: 2026-06-17
-author: "Building a Brand Online"
+author: "Dana Whitfield"
 image: "/images/blog/how-to-run-successful-blog.jpg"
 slug: "how-to-run-a-successful-blog-in-17-creative-ways"
 legacyUrl: "/Blogging2success/how-to-run-a-successful-blog-in-17-creative-ways/"

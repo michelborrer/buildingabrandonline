@@ -3,7 +3,7 @@ title: "Interview with Gary Vaynerchuk on Building an Online Brand"
 category: "Branding"
 excerpt: "A spontaneous Skype interview with Gary Vaynerchuk on building your brand online, social media predictions, passion, and executing your business."
 pubDate: 2013-01-03
-author: "Building a Brand Online"
+author: "Dana Whitfield"
 image: "/images/blog/garyvee-interview-hero.jpg"
 slug: "garyvee-interview"
 legacyUrl: "/garyvee-interview/"

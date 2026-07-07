@@ -9,31 +9,89 @@ const breadcrumbs = [
   { name: 'Home', path: '/' },
   { name: 'Services', path: '/services/' },
 ];
-const servicesSchema = {
-  '@type': 'CollectionPage',
-  name: 'Our Services',
-  url: `${siteUrl}/services/`,
-  description:
-    'Branding strategy, AI-powered tools, courses, and workshops to build and scale your online presence.',
-  mainEntity: {
-    '@type': 'ItemList',
-    itemListElement: services.map((service, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      item: {
-        '@type': 'Service',
-        name: service.title,
-        description: service.description,
-        provider: { '@id': `${siteUrl}/#organization` },
+
+const process = [
+  {
+    step: '01',
+    title: 'Tell us where you are',
+    description:
+      "Email us a short description of your business and what's not working. No discovery-call gauntlet — a few honest paragraphs is enough.",
+  },
+  {
+    step: '02',
+    title: 'Get a straight recommendation',
+    description:
+      "We reply with what we'd actually do in your position. Sometimes that's a service engagement; sometimes it's a course or a free guide. We'll tell you which.",
+  },
+  {
+    step: '03',
+    title: 'Do the work together',
+    description:
+      'Every engagement has a defined scope, a fixed price agreed up front, and deliverables you keep — strategy documents, messaging guides, and action plans.',
+  },
+];
+
+const faqs = [
+  {
+    question: 'How much do your branding services cost?',
+    answer:
+      'Strategy engagements and workshops are quoted individually because scope varies, but every quote is a fixed price agreed before we start — no hourly billing surprises. Courses are one-time purchases with lifetime access, and the AI tools and resource library are free.',
+  },
+  {
+    question: "What's the difference between the courses and the services?",
+    answer:
+      'The courses teach you to do the work yourself at your own pace. The services are for when you want us in the room: we build the strategy with you, facilitate the workshop, and hand over finished deliverables. Many clients start with a course and bring us in later for the pieces they want done faster.',
+  },
+  {
+    question: 'Do you work with businesses outside the US?',
+    answer:
+      "Yes. We're a fully remote team and most engagements happen over video calls and shared documents, so time zone is the only real constraint — and we've made that work from Auckland to Amsterdam.",
+  },
+  {
+    question: 'Can you help if my brand already exists but feels stale?',
+    answer:
+      "That's the most common starting point. A repositioning engagement looks at what your brand has already earned — audience, reputation, search visibility — and rebuilds the messaging around it rather than starting from zero.",
+  },
+];
+
+const servicesSchema = [
+  {
+    '@type': 'CollectionPage',
+    name: 'Our Services',
+    url: `${siteUrl}/services/`,
+    description:
+      'Branding strategy, AI-powered tools, courses, and workshops to build and scale your online presence.',
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: services.map((service, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        item: {
+          '@type': 'Service',
+          name: service.title,
+          description: service.description,
+          provider: { '@id': `${siteUrl}/#organization` },
+        },
+      })),
+    },
+  },
+  {
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
       },
     })),
   },
-};
+];
 ---
 
 <Layout
-  title="Services - Building a Brand Online"
-  description="Explore expert branding services, AI-powered tools, courses, and hands-on workshops. Everything you need to build and scale your online presence."
+  title="Branding Services & AI Marketing Tools - Building a Brand Online"
+  description="Brand strategy engagements, team workshops, self-paced courses, and free AI naming tools. Fixed prices, defined scope, and deliverables you keep."
   breadcrumbs={breadcrumbs}
   jsonLd={servicesSchema}
 >
@@ -41,16 +99,16 @@ const servicesSchema = {
   <section class="pt-32 pb-20 md:pb-28 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <ScrollReveal>
-        <h1 class="text-4xl md:text-5xl font-bold text-[#1A1A1A] text-center" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">Our Services</h1>
-        <p class="mt-4 text-[#666666] text-center max-w-2xl mx-auto">Comprehensive branding solutions to help you build, grow, and scale your online presence.</p>
+        <h1 class="text-4xl md:text-5xl font-bold text-[#1A1A1A] text-center" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">Branding Services &amp; Tools</h1>
+        <p class="mt-4 text-[#666666] text-center max-w-2xl mx-auto">Four ways to work with us, from free self-serve tools to hands-on strategy engagements. Every option ends with something you can use the same week.</p>
       </ScrollReveal>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-10 mt-16">
         {services.map((service, index) => (
           <ScrollReveal delay={index * 100}>
-            <div class="group text-center">
+            <div class="group h-full flex flex-col">
               <!-- Image with Icon Overlay -->
-              <div class="relative aspect-[4/3] rounded-lg overflow-hidden">
+              <div class="relative aspect-[16/9] rounded-lg overflow-hidden">
                 <img src={service.image} alt={service.title} class="w-full h-full object-cover img-zoom" loading="lazy" onerror="this.style.display='none'" />
                 <!-- Icon Overlay -->
                 <div class="absolute bottom-3 right-3 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md">
@@ -68,9 +126,60 @@ const servicesSchema = {
                   )}
                 </div>
               </div>
-              <h3 class="text-xl font-bold text-[#1A1A1A] mt-4">{service.title}</h3>
-              <p class="mt-2 text-sm text-[#666666] leading-relaxed">{service.description}</p>
+              <h2 class="text-xl font-bold text-[#1A1A1A] mt-5">{service.title}</h2>
+              <p class="mt-2 text-[#666666] leading-relaxed">{service.description}</p>
+              <ul class="mt-4 space-y-2">
+                {service.details.map((detail) => (
+                  <li class="flex items-start gap-2 text-sm text-[#666666]">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4361EE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 flex-shrink-0"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    {detail}
+                  </li>
+                ))}
+              </ul>
             </div>
+          </ScrollReveal>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- How We Work -->
+  <section class="py-20 md:py-28 bg-[#0A0A0A]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <ScrollReveal>
+        <h2 class="text-3xl md:text-4xl font-bold text-white text-center" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">How Working With Us Goes</h2>
+        <p class="mt-4 text-white/70 text-center max-w-2xl mx-auto">Three steps, no funnels, no pressure.</p>
+      </ScrollReveal>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-14">
+        {process.map((item, index) => (
+          <ScrollReveal delay={index * 100}>
+            <div class="bg-[#111111] rounded-lg p-8 h-full">
+              <p class="text-4xl font-extrabold text-[#4361EE]" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">{item.step}</p>
+              <h3 class="text-xl font-bold text-white mt-4">{item.title}</h3>
+              <p class="mt-3 text-white/70 leading-relaxed">{item.description}</p>
+            </div>
+          </ScrollReveal>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-20 md:py-28 bg-white">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <ScrollReveal>
+        <h2 class="text-3xl md:text-4xl font-bold text-[#1A1A1A] text-center" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">Common Questions</h2>
+      </ScrollReveal>
+      <div class="mt-12 space-y-4">
+        {faqs.map((faq, index) => (
+          <ScrollReveal delay={index * 75}>
+            <details class="group bg-[#F5F5F5] rounded-lg p-6">
+              <summary class="flex items-center justify-between cursor-pointer list-none font-bold text-[#1A1A1A]">
+                {faq.question}
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0 ml-4 transition-transform group-open:rotate-180"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </summary>
+              <p class="mt-4 text-[#666666] leading-relaxed">{faq.answer}</p>
+            </details>
           </ScrollReveal>
         ))}
       </div>
@@ -84,11 +193,11 @@ const servicesSchema = {
         <!-- Left — Text -->
         <ScrollReveal>
           <div>
-            <h2 class="text-3xl md:text-4xl font-bold text-[#1A1A1A]" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">Start Building Your Brand</h2>
-            <p class="mt-4 text-lg text-[#666666] leading-relaxed">Ready to transform your online presence? Our team of experts is here to help you every step of the way. From strategy to execution, we've got you covered.</p>
+            <h2 class="text-3xl md:text-4xl font-bold text-[#1A1A1A]" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">Not Sure Where to Start?</h2>
+            <p class="mt-4 text-lg text-[#666666] leading-relaxed">Send us two sentences about your business and your biggest marketing frustration. We'll reply with the option we'd pick in your shoes — even when the honest answer is a free resource.</p>
             <div class="flex flex-col sm:flex-row gap-4 mt-8">
               <Button variant="primary-solid" href="/contact/">Contact Us</Button>
-              <Button variant="primary-outline" href="/training/">See Pricing</Button>
+              <Button variant="primary-outline" href="/training/">Browse Courses</Button>
             </div>
           </div>
         </ScrollReveal>

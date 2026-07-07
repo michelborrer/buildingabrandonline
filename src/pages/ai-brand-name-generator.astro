@@ -1,26 +1,133 @@
 ---
 import Layout from '@layouts/Layout.astro';
-import Button from '@components/Button.astro';
 
+const siteUrl = 'https://buildingabrandonline.com';
 const breadcrumbs = [
   { name: 'Home', path: '/' },
   { name: 'AI Brand Name Generator', path: '/ai-brand-name-generator/' },
 ];
+const toolSchema = {
+  '@type': 'WebApplication',
+  name: 'AI Brand Name Generator',
+  url: `${siteUrl}/ai-brand-name-generator/`,
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  description:
+    'Free brand name generator. Enter a keyword that describes your business and get dozens of short, brandable name ideas instantly.',
+  provider: { '@id': `${siteUrl}/#organization` },
+};
 ---
 
 <Layout
-  title="AI Brand Name Generator - Building a Brand Online"
-  description="Generate unique, memorable brand names with our upcoming AI-powered tool. Find the perfect name for your business, product, or startup. Join the waitlist today."
+  title="Free AI Brand Name Generator - Building a Brand Online"
+  description="Generate short, brandable business name ideas from any keyword — free, instant, no signup. Includes practical tips for choosing a name you won't regret."
   breadcrumbs={breadcrumbs}
-  noindex={true}
+  jsonLd={toolSchema}
 >
-  <div class="min-h-[80vh] flex items-center justify-center bg-[#F5F5F5]">
-    <div class="text-center max-w-xl mx-auto px-4">
-      <h1 class="text-4xl md:text-5xl font-bold" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">AI Brand Name Generator</h1>
-      <p class="mt-4 text-xl text-[#666666]">Our AI-powered brand name generator is coming soon. Stay tuned for an innovative tool that will help you find the perfect name for your brand.</p>
-      <div class="mt-8">
-        <Button variant="primary-solid" href="/">Back to Home</Button>
+  <!-- Tool -->
+  <section class="pt-32 pb-16 bg-[#F5F5F5]">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold text-[#1A1A1A]" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">AI Brand Name Generator</h1>
+      <p class="mt-4 text-lg text-[#666666]">Type one or two words that describe your business. Get brandable name ideas instantly — free, no signup.</p>
+
+      <form id="name-form" class="mt-8 flex flex-col sm:flex-row gap-3">
+        <label for="name-keyword" class="sr-only">Describe your business in a word or two</label>
+        <input
+          type="text"
+          id="name-keyword"
+          placeholder="e.g. coffee, fitness, design"
+          maxlength="24"
+          autocomplete="off"
+          required
+          class="flex-grow px-5 py-3 rounded-md border border-[#E5E5E5] focus:border-[#4361EE] focus:outline-none focus:ring-2 focus:ring-[#4361EE]/20 text-[#1A1A1A]"
+        />
+        <button type="submit" class="bg-[#4361EE] text-white px-6 py-3 rounded-md font-medium hover:bg-[#3651D4] transition-colors">
+          Generate Names
+        </button>
+      </form>
+
+      <div id="name-results" class="mt-8 grid grid-cols-2 sm:grid-cols-3 gap-3 text-left" hidden></div>
+      <p id="name-hint" class="mt-4 text-sm text-[#999999]" hidden>Click any name to copy it. Not feeling these? Generate again for a fresh batch.</p>
+    </div>
+  </section>
+
+  <!-- Guidance content -->
+  <section class="py-16 md:py-20 bg-white">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl md:text-3xl font-bold text-[#1A1A1A]" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">How to Choose a Brand Name That Lasts</h2>
+      <div class="mt-6 space-y-5 text-[#666666] leading-relaxed">
+        <p>A generator gets you past the blank page; judgment gets you to a good name. Before you commit, run every candidate through four quick filters:</p>
+        <ul class="list-disc pl-6 space-y-2">
+          <li><strong class="text-[#1A1A1A]">The radio test.</strong> Say it out loud to someone once. If they can't spell it afterward, you'll lose people at every word-of-mouth referral.</li>
+          <li><strong class="text-[#1A1A1A]">Room to grow.</strong> "Portland Wedding Photos LLC" is a problem the day you book a client in Seattle or shoot your first corporate event.</li>
+          <li><strong class="text-[#1A1A1A]">The domain and handle check.</strong> You don't need the exact .com, but check that something workable is available before you fall in love.</li>
+          <li><strong class="text-[#1A1A1A]">A basic trademark search.</strong> Five minutes on your trademark office's website now can save a forced rebrand later.</li>
+        </ul>
+        <p>Once you've shortlisted two or three names, pair each with a tagline using our <a href="/ai-slogan-generator/" class="text-[#4361EE] hover:underline">free slogan generator</a>, and see which combination feels like a brand rather than a label. If you want a structured process for the whole identity — voice, positioning, visuals — that's exactly what our <a href="/services/" class="text-[#4361EE] hover:underline">branding services</a> and the free Brand Identity Workbook on our <a href="/resources/" class="text-[#4361EE] hover:underline">resources page</a> are for.</p>
       </div>
     </div>
-  </div>
+  </section>
 </Layout>
+
+<script>
+  const prefixes = ['Nova', 'Bright', 'True', 'Bold', 'Prime', 'Ever', 'Clear', 'North', 'Wild', 'Blue', 'Iron', 'Swift', 'Honest', 'Golden', 'Urban'];
+  const suffixes = ['ly', 'ify', 'io', 'able', 'hub', 'lab', 'nest', 'forge', 'works', 'loop', 'mint', 'wave', 'spark', 'craft', 'field'];
+  const companions = ['Co.', 'Studio', 'Collective', 'House', 'Society', 'Supply', 'Post', 'Union', 'Press', 'Guild'];
+
+  const form = document.getElementById('name-form') as HTMLFormElement;
+  const input = document.getElementById('name-keyword') as HTMLInputElement;
+  const results = document.getElementById('name-results') as HTMLDivElement;
+  const hint = document.getElementById('name-hint') as HTMLParagraphElement;
+
+  function titleCase(word: string): string {
+    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+  }
+
+  function pick<T>(arr: T[], count: number): T[] {
+    return [...arr].sort(() => Math.random() - 0.5).slice(0, count);
+  }
+
+  function generateNames(rawKeyword: string): string[] {
+    const keyword = titleCase(rawKeyword.replace(/[^a-zA-Z]/g, '').slice(0, 16));
+    if (!keyword) return [];
+    const stem = keyword.replace(/[aeiou]+$/i, '');
+    const names = new Set<string>();
+
+    pick(prefixes, 4).forEach((p) => names.add(`${p}${keyword}`));
+    pick(suffixes, 4).forEach((s) => names.add(`${stem}${s}`));
+    pick(companions, 3).forEach((c) => names.add(`${keyword} ${c}`));
+    pick(prefixes, 2).forEach((p) => names.add(`${p} & ${keyword}`));
+    names.add(`The ${keyword} Project`);
+
+    return [...names].slice(0, 12);
+  }
+
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const names = generateNames(input.value.trim());
+    if (!names.length) return;
+
+    results.innerHTML = '';
+    names.forEach((name) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = name;
+      button.className =
+        'bg-white border border-[#E5E5E5] rounded-md px-4 py-3 text-sm font-semibold text-[#1A1A1A] hover:border-[#4361EE] hover:text-[#4361EE] transition-colors cursor-pointer text-center';
+      button.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(name);
+          const original = button.textContent;
+          button.textContent = 'Copied!';
+          setTimeout(() => (button.textContent = original), 1000);
+        } catch {
+          /* clipboard unavailable; selection still visible */
+        }
+      });
+      results.appendChild(button);
+    });
+    results.hidden = false;
+    hint.hidden = false;
+  });
+</script>

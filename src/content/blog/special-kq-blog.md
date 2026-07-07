@@ -3,7 +3,7 @@ title: "Blogging for Money"
 category: "Blogging"
 excerpt: "Discover how blogging can create residual income online, why the right platform matters, and how to build a successful online career through content."
 pubDate: 2014-06-01
-author: "Building a Brand Online"
+author: "Dana Whitfield"
 image: "/images/blog/special-kq-blog-hero.jpg"
 slug: "special-kq-blog"
 legacyUrl: "/SpecialKQBlog/"

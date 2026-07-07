@@ -1,5 +1,4 @@
 export interface Testimonial {
-  initials: string;
   quote: string;
   avatar: string;
   name: string;
@@ -8,17 +7,17 @@ export interface Testimonial {
 
 export const testimonials: Testimonial[] = [
   {
-    initials: "Jane's Boutique",
-    quote: "Jane successfully launched her online store within three months, increasing her sales by 150%. Her story exemplifies how our training modules empower entrepreneurs to achieve rapid growth and build sustainable brands.",
+    quote:
+      "I'd been posting for two years with nothing to show for it. The Content Strategy Blueprint made me delete half my topic list and double down on what people were actually searching for. Three months later my little boutique gets more orders from Google than from Instagram.",
     avatar: '/images/avatars/avatar-jane.jpg',
-    name: 'Jane Doe',
-    role: "E-commerce Entrepreneur, Jane's Boutique",
+    name: 'Marisol Vega',
+    role: 'Owner, Vega & Thread Boutique',
   },
   {
-    initials: 'SC',
-    quote: "John's digital marketing journey led to a 200% increase in client engagement and a thriving consulting business. His success underscores the effectiveness of our comprehensive training and community support.",
+    quote:
+      "The email course paid for itself with one campaign. I set up the welcome sequence exactly as taught, and it now books two or three consulting calls a week without me touching it. I only wish I'd stopped treating my list as an afterthought sooner.",
     avatar: '/images/avatars/avatar-john.jpg',
-    name: 'John Smith',
-    role: 'Digital Marketer, Smith Consulting',
+    name: 'Darnell Okafor',
+    role: 'Founder, Okafor Growth Consulting',
   },
 ];

@@ -1,53 +1,28 @@
+---
+import { courses } from '@data/courses';
+---
+
 <section class="py-20 md:py-28 lg:py-32 bg-white">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-[#1A1A1A] mb-16 font-display">
+    <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-[#1A1A1A] mb-4 font-display">
       Featured Courses
     </h2>
+    <p class="text-gray-600 max-w-2xl mx-auto text-center mb-16">
+      Four core skills, taught in plain English. Pick the one your brand needs most right now.
+    </p>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-      <!-- Course Card 1 -->
-      <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
-        <div class="aspect-[4/3] overflow-hidden">
-          <img src="/images/courses/course-seo.jpg" alt="SEO Fundamentals Course" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-        </div>
-        <div class="p-6 text-center">
-          <h3 class="text-lg font-bold text-[#1A1A1A] mb-2">SEO Fundamentals Course</h3>
-          <p class="text-sm text-gray-600 leading-relaxed">Master the basics of SEO to improve your website's ranking and drive organic traffic. Start building your online presence today.</p>
-        </div>
-      </div>
-
-      <!-- Course Card 2 -->
-      <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
-        <div class="aspect-[4/3] overflow-hidden">
-          <img src="/images/courses/course-social.jpg" alt="Social Media Domination" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-        </div>
-        <div class="p-6 text-center">
-          <h3 class="text-lg font-bold text-[#1A1A1A] mb-2">Social Media Domination</h3>
-          <p class="text-sm text-gray-600 leading-relaxed">Learn how to create engaging content and build a strong social media presence. Connect with your audience effectively.</p>
-        </div>
-      </div>
-
-      <!-- Course Card 3 -->
-      <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
-        <div class="aspect-[4/3] overflow-hidden">
-          <img src="/images/courses/course-email.jpg" alt="Email Marketing Mastery" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-        </div>
-        <div class="p-6 text-center">
-          <h3 class="text-lg font-bold text-[#1A1A1A] mb-2">Email Marketing Mastery</h3>
-          <p class="text-sm text-gray-600 leading-relaxed">Craft compelling email campaigns that convert subscribers into loyal customers. Boost your sales with targeted email strategies.</p>
-        </div>
-      </div>
-
-      <!-- Course Card 4 -->
-      <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
-        <div class="aspect-[4/3] overflow-hidden">
-          <img src="/images/courses/course-content.jpg" alt="Content Strategy Blueprint" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-        </div>
-        <div class="p-6 text-center">
-          <h3 class="text-lg font-bold text-[#1A1A1A] mb-2">Content Strategy Blueprint</h3>
-          <p class="text-sm text-gray-600 leading-relaxed">Develop a content strategy that attracts, engages, and converts your target audience. Create valuable content that resonates.</p>
-        </div>
-      </div>
+      {courses.map((course) => (
+        <a href="/training/" class="block bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+          <div class="aspect-[4/3] overflow-hidden">
+            <img src={course.image} alt={course.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+          </div>
+          <div class="p-6 text-center">
+            <h3 class="text-lg font-bold text-[#1A1A1A] mb-2 group-hover:text-[#4361EE] transition-colors">{course.title}</h3>
+            <p class="text-sm text-gray-600 leading-relaxed">{course.description}</p>
+          </div>
+        </a>
+      ))}
     </div>
   </div>
 </section>

@@ -2,8 +2,6 @@
 import Layout from '@layouts/Layout.astro';
 import Button from '@components/Button.astro';
 import ScrollReveal from '@components/ScrollReveal.astro';
-import SectionHeading from '@components/SectionHeading.astro';
-
 const resources = [
   {
     title: 'SEO Checklist',
@@ -67,16 +65,16 @@ const resourcesSchema = {
 ---
 
 <Layout
-  title="Resources - Building a Brand Online"
-  description="Download free marketing resources, guides, templates, and checklists, from SEO and content calendars to email and brand identity, to grow your online brand."
+  title="Free Marketing Templates & Guides - Building a Brand Online"
+  description="Download free marketing templates, guides, and checklists: SEO audits, content calendars, email templates, and brand workbooks. No paywall, delivered by email."
   breadcrumbs={breadcrumbs}
   jsonLd={resourcesSchema}
 >
   <!-- Hero -->
   <section class="pt-32 pb-16 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h1 class="text-4xl md:text-5xl font-bold text-[#1A1A1A]" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">Free Marketing Resources</h1>
-      <p class="mt-4 text-lg text-[#666666] max-w-2xl mx-auto">Access our library of free guides, templates, and checklists designed to help you build and grow your online brand.</p>
+      <h1 class="text-4xl md:text-5xl font-bold text-[#1A1A1A]" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">Free Marketing Templates &amp; Guides</h1>
+      <p class="mt-4 text-lg text-[#666666] max-w-2xl mx-auto">Every resource below is free. Click the one you want, send the pre-filled email, and we'll deliver it to your inbox — usually within the hour.</p>
     </div>
   </section>
 
@@ -112,7 +110,7 @@ const resourcesSchema = {
               </div>
               <h3 class="text-xl font-bold text-[#1A1A1A] group-hover:text-[#4361EE] transition-colors">{resource.title}</h3>
               <p class="mt-2 text-sm text-[#666666] leading-relaxed">{resource.description}</p>
-              <Button variant="primary-solid" size="sm" href="/contact/" class="mt-4">Download Free</Button>
+              <Button variant="primary-solid" size="sm" href={`mailto:info@buildingabrandonline.com?subject=${encodeURIComponent(`Resource request: ${resource.title}`)}`} class="mt-4">Get It by Email</Button>
             </div>
           </ScrollReveal>
         ))}

@@ -45,20 +45,18 @@ const organization = {
   description:
     'Digital marketing education platform helping entrepreneurs build and grow a thriving online brand through courses, resources, and community.',
   email: 'info@buildingabrandonline.com',
+  foundingDate: '2012',
+  founder: {
+    '@type': 'Person',
+    name: 'Dana Whitfield',
+    url: `${siteUrl}/about/`,
+    jobTitle: 'Founder & Brand Strategist',
+  },
   contactPoint: {
     '@type': 'ContactPoint',
-    telephone: '+1-415-555-0123',
     email: 'info@buildingabrandonline.com',
     contactType: 'customer support',
     availableLanguage: 'English',
-  },
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: '123 Market Street',
-    addressLocality: 'San Francisco',
-    addressRegion: 'CA',
-    postalCode: '94103',
-    addressCountry: 'US',
   },
 };
 
@@ -106,6 +104,9 @@ const structuredData = {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#0A0A0A" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -133,6 +134,9 @@ const structuredData = {
     <slot name="head" />
   </head>
   <body class="min-h-screen bg-white">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:bg-white focus:text-[#1A1A1A] focus:px-4 focus:py-2 focus:rounded-md focus:shadow-lg">
+      Skip to main content
+    </a>
     <Navbar />
     <main id="main-content">
       <slot />

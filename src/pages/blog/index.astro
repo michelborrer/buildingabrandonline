@@ -1,13 +1,15 @@
 ---
 import Layout from '@layouts/Layout.astro';
 import BlogCard from '@components/BlogCard.astro';
-import Button from '@components/Button.astro';
 import ScrollReveal from '@components/ScrollReveal.astro';
 import { getCollection } from 'astro:content';
 import { getPostUrl } from '@utils/blog';
 
 const posts = await getCollection('blog');
 posts.sort((a: any, b: any) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
+
+const categories = [...new Set(posts.map((post: any) => post.data.category))].sort() as string[];
+const categorySlug = (name: string) => name.toLowerCase().replace(/\s+/g, '-');
 
 const siteUrl = 'https://buildingabrandonline.com';
 const breadcrumbs = [
@@ -56,12 +58,19 @@ const blogSchema = {
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Header Row -->
       <ScrollReveal>
-        <div class="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-12">
-          <div>
-            <h2 class="text-3xl font-bold text-[#1A1A1A]">Latest Insights</h2>
-            <p class="mt-2 text-[#666666]">Explore our newest marketing articles to boost your online brand.</p>
+        <div class="mb-12">
+          <h2 class="text-3xl font-bold text-[#1A1A1A]">Latest Insights</h2>
+          <p class="mt-2 text-[#666666]">Explore our newest marketing articles to boost your online brand.</p>
+          <div class="flex flex-wrap gap-2 mt-6">
+            {categories.map((category) => (
+              <a
+                href={`/blog/category/${categorySlug(category)}/`}
+                class="px-4 py-1.5 rounded-full border border-[#E5E5E5] text-sm text-[#666666] hover:border-[#4361EE] hover:text-[#4361EE] transition-colors"
+              >
+                {category}
+              </a>
+            ))}
           </div>
-          <Button variant="primary-outline" size="sm" href="/blog/">Read More</Button>
         </div>
       </ScrollReveal>
 

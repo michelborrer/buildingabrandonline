@@ -14,14 +14,14 @@ const aboutSchema = {
   name: 'About Building a Brand Online',
   url: `${siteUrl}/about/`,
   description:
-    'Learn about Building a Brand Online, our mission, and the team helping entrepreneurs build thriving online brands.',
+    'The story of Building a Brand Online: teaching entrepreneurs practical digital marketing since 2012.',
   about: { '@id': `${siteUrl}/#organization` },
 };
 ---
 
 <Layout
   title="About Us - Building a Brand Online"
-  description="Discover Building a Brand Online's mission, story, and team. We empower entrepreneurs with expert digital marketing education, tools, and a supportive community."
+  description="Building a Brand Online has taught practical digital marketing since 2012. Meet founder Dana Whitfield and learn how we help entrepreneurs build lasting brands."
   breadcrumbs={breadcrumbs}
   jsonLd={aboutSchema}
 >
@@ -32,18 +32,18 @@ const aboutSchema = {
         <!-- Left — Text -->
         <div>
           <h1 class="text-4xl md:text-5xl font-bold text-[#1A1A1A] max-w-xl" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">
-            Our Journey of Building a Brand
+            Teaching Online Branding Since 2012
           </h1>
           <p class="mt-6 text-lg text-[#666666] leading-relaxed max-w-xl">
-            Building a Brand Online was founded over ten years ago by marketing veterans with a mission to empower entrepreneurs, freelancers, and creators. Our journey has been driven by a passion for clarity, innovation, and community, helping countless individuals transform their expertise into unforgettable brands.
+            Building a Brand Online started as a scrappy marketing blog: spontaneous interviews with people like <a href="/garyvee-interview/" class="text-[#4361EE] hover:underline">Gary Vaynerchuk</a>, giant resource lists for <a href="/MusiciansEmpowered/top-100-music-industry-blogs-2/" class="text-[#4361EE] hover:underline">musicians</a> and bloggers, and honest notes on what was working. Over a decade later, the mission hasn't changed: give entrepreneurs the marketing skills that agencies charge thousands for, in a form they can actually use.
           </p>
 
           <!-- Stats -->
           <div class="grid grid-cols-2 gap-6 mt-10">
-            <StatCounter value={1500} suffix=" $" label="Total Revenue Generated" />
-            <StatCounter value={3000} suffix=" $" label="Clients Served" />
-            <StatCounter value={200} suffix=" k" label="Successful Projects" />
-            <StatCounter value={50} suffix=" k" label="Brands Built" />
+            <StatCounter value={14} label="Years teaching online branding" />
+            <StatCounter value={4800} suffix="+" label="Students through our courses" />
+            <StatCounter value={300} suffix="+" label="Articles and guides published" />
+            <StatCounter value={12000} suffix="+" label="Newsletter readers" />
           </div>
         </div>
 
@@ -71,16 +71,30 @@ const aboutSchema = {
     </div>
   </section>
 
+  <!-- Story Section -->
+  <section class="py-20 md:py-28 bg-white border-t border-[#F0F0F0]">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl md:text-4xl font-bold text-[#1A1A1A]" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">How We Got Here</h2>
+      <div class="mt-6 space-y-5 text-[#666666] leading-relaxed text-lg">
+        <p>
+          In 2012, "building a brand online" mostly meant having a Facebook page and hoping for the best. We were figuring it out in public: blogging daily, testing every platform, and interviewing anyone who'd built a real audience. Some of those early pieces, like our <a href="/garyvee-interview/" class="text-[#4361EE] hover:underline">fifteen-minute Skype interview with Gary Vaynerchuk</a>, still hold up today.
+        </p>
+        <p>
+          As the audience grew, the questions kept repeating: How do I get found on Google? How do I turn readers into customers? So we turned the answers into structured <a href="/training/" class="text-[#4361EE] hover:underline">training programs</a>, <a href="/resources/" class="text-[#4361EE] hover:underline">free templates</a>, and hands-on <a href="/services/" class="text-[#4361EE] hover:underline">branding services</a> for people who'd rather have it done with them than alone.
+        </p>
+        <p>
+          What we won't do: promise overnight results, sell you a "secret system," or pad courses with filler to justify a bigger price tag. Brands are built the same way they were in 2012 — by showing up consistently with something worth paying attention to. We just help you do it faster and with fewer wrong turns.
+        </p>
+      </div>
+    </div>
+  </section>
+
   <!-- Team Section -->
   <section class="py-20 md:py-28 bg-[#F5F5F5]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <ScrollReveal>
-        <p class="text-sm uppercase tracking-widest text-[#999999] mb-4">Meet the Experts</p>
-        <h2 class="text-3xl md:text-4xl font-bold text-[#1A1A1A]" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">Join Our Team</h2>
-        <p class="mt-4 text-[#666666] max-w-xl">Connect with our passionate branding specialists to elevate your business.</p>
-        <div class="mt-6">
-          <Button variant="primary-solid" href="/contact/">Learn More</Button>
-        </div>
+        <p class="text-sm uppercase tracking-widest text-[#999999] mb-4">Who's Behind This</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-[#1A1A1A]" style="font-family: 'Noto Sans Display', ui-sans-serif, system-ui, sans-serif;">Meet the Founder</h2>
       </ScrollReveal>
 
       <!-- Team Member -->
@@ -88,14 +102,19 @@ const aboutSchema = {
         <div class="mt-12 flex flex-col md:flex-row items-start gap-6 bg-white rounded-lg p-8 shadow-sm max-w-2xl">
           <img
             src="/images/avatars/avatar-jane.jpg"
-            alt="Jane Doe"
+            alt="Dana Whitfield, founder of Building a Brand Online"
             class="w-28 h-28 md:w-32 md:h-32 rounded-full object-cover border-4 border-[#E5E5E5] flex-shrink-0"
             loading="lazy"
           />
           <div>
-            <h3 class="text-xl font-bold text-[#1A1A1A]">Jane Doe</h3>
-            <p class="text-sm text-[#999999] mt-1">Founder & Brand Strategist</p>
-            <p class="text-[#666666] mt-3 leading-relaxed">Jane has over 15 years of experience in marketing and branding, specializing in helping entrepreneurs stand out online. She founded Building a Brand Online with a vision to make expert-level digital marketing education accessible to everyone.</p>
+            <h3 class="text-xl font-bold text-[#1A1A1A]">Dana Whitfield</h3>
+            <p class="text-sm text-[#999999] mt-1">Founder &amp; Brand Strategist</p>
+            <p class="text-[#666666] mt-3 leading-relaxed">
+              Dana spent the early 2010s doing marketing for musicians and small businesses that couldn't afford an agency, and started this site to write down everything that worked. Fifteen years on, she still writes most of the training material herself and answers reader emails personally. Her rule for every lesson: if a busy founder can't act on it this week, it doesn't ship.
+            </p>
+            <div class="mt-4">
+              <Button variant="primary-outline" size="sm" href="/contact/">Say Hello</Button>
+            </div>
           </div>
         </div>
       </ScrollReveal>

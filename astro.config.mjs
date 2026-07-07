@@ -4,14 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   output: 'static',
-  integrations: [
-    tailwind(),
-    sitemap({
-      filter: (page) =>
-        !page.includes('/ai-brand-name-generator') &&
-        !page.includes('/ai-slogan-generator'),
-    }),
-  ],
+  integrations: [tailwind(), sitemap()],
   site: 'https://buildingabrandonline.com',
   build: {
     format: 'directory',
